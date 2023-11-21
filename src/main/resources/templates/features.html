@@ -12,13 +12,13 @@
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 <h1>This is features</h1>
 
-<div class="form-group">
-  <form name="fileUpload" method="POST" action="uploadFile" enctype="multipart/form-data">
-<!--    <label>Select File</label> <br />-->
-    <input class="btn btn-primary" type="file" name="file" />
-    <input class="btn btn-primary" type="submit" name="submit" value="Upload" />
-  </form>
-</div>
+<h2>File Upload Form</h2>
+<form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+    <input type="file" name="file" />
+    <br/><br/>
+    <input type="submit" value="Upload" />
+</form>
+<p th:text="${message}"></p>
 
 </body>
 

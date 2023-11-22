@@ -10,15 +10,17 @@
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<h1>This is features</h1>
+<h1 style="text-decoration: underline">LTP Service</h1>
+<h5 style="font-style: italic;display: flex;justify-content: center;align-content: center">Upload your signed document</h5>
+<div style="display: flex;justify-content: center;align-content: center">
 
-<h2>File Upload Form</h2>
-<form th:action="@{/upload}" method="post" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <br/><br/>
-    <input type="submit" value="Upload" />
-</form>
-<p th:text="${message}"></p>
+    <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+        <input class="btn btn-primary" type="file" name="file" />
+        <br/><br/>
+        <input class="btn btn-primary" type="submit" value="Upload" />
+    </form>
+    <p th:text="${message}"></p>
+</div>
 
 </body>
 

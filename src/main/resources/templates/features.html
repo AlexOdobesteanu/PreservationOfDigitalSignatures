@@ -10,8 +10,12 @@
 <body>
 
 <div th:replace="~{fragments/navbar :: navbar}"></div>
-<h1 style="text-decoration: underline">LTP Service</h1>
-<h5 style="font-style: italic;display: flex;justify-content: center;align-content: center">Upload your signed document</h5>
+<h1 style="text-decoration: underline">Features</h1>
+<div style="margin-left: 20px!important;">
+    <h5 style="font-style: italic;display: flex;justify-content: center;align-content: center">Upload your signed document</h5>
+    <a class="btn btn-primary" href="/profile">View Profile</a>
+</div>
+
 <div style="display: flex;justify-content: center;align-content: center">
 
     <form th:action="@{/upload}" method="post" enctype="multipart/form-data">

@@ -10,7 +10,24 @@
 <body>
 <div th:replace="~{fragments/navbar :: navbar}"></div>
 
-<h1>this is index</h1>
+<h3 style="font-style: italic">This is a LTP Service, created based on the standards:</h3>
+<div style="display: flex;align-content: center;justify-content: center">
+  <ul class="list-group" style="max-width: 50rem">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      EN 319 142-1 - V1.1.1 - Electronic Signatures and Infrastructures (ESI); PAdES digital signatures; Part 1: Building blocks and PAdES baseline signatures
+      <span style="color:white" class="badge bg-primary rounded-pill">1</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      TS 119 511 - V1.1.1 - Electronic Signatures and Infrastructures (ESI); Policy and security requirements for trust service providers providing long-term preservation of digital signatures or general data using digital signature techniques
+      <span style="color:white" class="badge bg-primary rounded-pill">2</span>
+    </li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      TS 119 512 - V1.1.1 - Electronic Signatures and Infrastructures (ESI); Protocols for trust service providers providing long-term data preservation services
+      <span style="color:white" class="badge bg-primary rounded-pill">3</span>
+    </li>
+  </ul>
+</div>
+
 </body>
 
 </html>

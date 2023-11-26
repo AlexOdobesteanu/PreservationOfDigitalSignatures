@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:c="http://www.w3.org/1999/XSL/Transform">
 <head>
   <title>Features</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -9,22 +9,63 @@
 
 <body>
 
-<div th:replace="~{fragments/navbar :: navbar}"></div>
-<h1 style="text-decoration: underline">Features</h1>
-<div style="margin-left: 20px!important;">
-    <h5 style="font-style: italic;display: flex;justify-content: center;align-content: center">Upload your signed document</h5>
-    <a class="btn btn-primary" href="/profile">View Profile</a>
-</div>
+    <div th:replace="~{fragments/navbar :: navbar}"></div>
+    <h1 style="text-decoration: underline">Features</h1>
+    <div style="margin-left: 20px!important;">
+        <h5 style="font-style: italic;display: flex;justify-content: center;align-content: center">Upload your signed document</h5>
+        <a class="btn btn-primary" href="/profile">View Profile</a>
+    </div>
 
-<div style="display: flex;justify-content: center;align-content: center">
+    <div style="display: flex;justify-content: center;align-content: center">
+        <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
+            <input class="btn btn-primary" type="file" name="file" />
+            <br/><br/>
+            <input class="btn btn-primary" type="submit" value="Upload" />
+        </form>
+        <p th:text="${message}"></p>
+    </div>
 
-    <form th:action="@{/upload}" method="post" enctype="multipart/form-data">
-        <input class="btn btn-primary" type="file" name="file" />
-        <br/><br/>
-        <input class="btn btn-primary" type="submit" value="Upload" />
-    </form>
-    <p th:text="${message}"></p>
-</div>
+    <br></br>
+    <div th:if="${render}==1" style="display: flex;justify-content: center;align-content: center">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Type</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="table-active">
+                    <th scope="row">Format Checking</th>
+                    <td th:text="${block.getFC().getConclusion().getIndication().toString()}"></td>
+                </tr>
+                <tr class="table-active">
+                    <th scope="row">Identification of the Signing Certificate</th>
+                    <td th:text="${block.getISC().getConclusion().getIndication().toString()}"></td>
+                </tr>
+                <tr class="table-active">
+                    <th scope="row">Validation Context Initialization</th>
+                    <td th:text="${block.getVCI().getConclusion().getIndication().toString()}"></td>
+                </tr>
+                <tr class="table-active">
+                    <th scope="row">X509 Certificate Validation</th>
+                    <td th:text="${block.getXCV().getConclusion().getIndication().toString()}"></td>
+                </tr>
+                <tr class="table-active">
+                    <th scope="row">Cryptographic Verification</th>
+                    <td th:text="${block.getCV().getConclusion().getIndication().toString()}"></td>
+                </tr>
+                <tr class="table-active">
+                    <th scope="row">Signature Acceptance Validation</th>
+                    <td th:text="${block.getSAV().getConclusion().getIndication().toString()}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+
+
 
 </body>
 

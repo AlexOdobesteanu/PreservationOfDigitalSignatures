@@ -95,8 +95,6 @@
 			<version>5.12.1</version>
 		</dependency>
 
-
-
 		<dependency>
 			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
 			<artifactId>dss-pades</artifactId>
@@ -112,9 +110,11 @@
 			<artifactId>dss-utils</artifactId>
 			<version>5.12.1</version> <!-- Use the version matching your DSS version -->
 		</dependency>
-
-
-
+		<dependency>
+			<groupId>eu.europa.ec.joinup.sd-dss</groupId>
+			<artifactId>dss-service</artifactId>
+			<version>5.12.1</version> <!-- Use the version matching your DSS version -->
+		</dependency>
 
 	</dependencies>
 

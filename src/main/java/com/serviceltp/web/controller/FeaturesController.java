@@ -31,12 +31,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.cert.CertificateException;
 import java.util.List;
 import java.util.Locale;
 
 @Controller
 public class FeaturesController{
-     protected PdfValidatorCustom pdfValidator=new PdfValidatorCustom();
+
     //show upload form
     @GetMapping("/features")
     public String features()
@@ -47,7 +48,7 @@ public class FeaturesController{
 
     @RequestMapping("/upload")
     @PostMapping
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) {
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, Model model) throws CertificateException {
 
         if (file.isEmpty()) {
             model.addAttribute("message", "Please select a file to upload");
@@ -60,7 +61,9 @@ public class FeaturesController{
             byte[] bytes = file.getBytes();
             model.addAttribute("message", "File uploaded successfully");
 
-            List<XmlBasicBuildingBlocks> blocks= pdfValidator.validateBytes(bytes);
+
+
+            List<XmlBasicBuildingBlocks> blocks= PdfValidatorCustom.validateBytes(bytes);
             if(blocks!=null)
             {
                 model.addAttribute("render",1);

@@ -25,8 +25,6 @@ public class Result {
             ProblemReference = problemReference;
         }
         else
-        {
             throw new Exception("Result Major value is not valid");
-        }
     }
 }

@@ -6,6 +6,8 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.net.URI;
+
 @SpringBootApplication
 public class WebApplication {
 

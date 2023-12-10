@@ -1,4 +1,4 @@
-package com.serviceltp.web.baseComponents;
+package com.serviceltp.web.baseComponents.baseRequest;
 
 public class Request {
     private OptionalInputs OptionalInputs;

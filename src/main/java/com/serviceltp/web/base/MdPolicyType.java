@@ -38,6 +38,15 @@ public class MdPolicyType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public MdPolicyType(URI type, MdPolicyByRefType pbref, DsbAnyType__1 pbdef, List<String> ep, List<MdExtensionType> ext, Map<String, Object> additionalProperties) {
+        this.type = type;
+        this.pbref = pbref;
+        this.pbdef = pbdef;
+        this.ep = ep;
+        this.ext = ext;
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonProperty("type")
     public URI getType() {
         return type;

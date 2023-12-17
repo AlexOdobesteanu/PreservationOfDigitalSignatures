@@ -32,6 +32,12 @@ public class PresProfileValidityPeriodType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public PresProfileValidityPeriodType(Date vfrom, Date vuntl, Map<String, Object> additionalProperties) {
+        this.vfrom = vfrom;
+        this.vuntl = vuntl;
+        this.additionalProperties = additionalProperties;
+    }
+
     /**
      * 
      * (Required)

@@ -31,6 +31,12 @@ public class MdPolicyByRefType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public MdPolicyByRefType(String polid, String polloc, Map<String, Object> additionalProperties) {
+        this.polid = polid;
+        this.polloc = polloc;
+        this.additionalProperties = additionalProperties;
+    }
+
     /**
      * 
      * (Required)

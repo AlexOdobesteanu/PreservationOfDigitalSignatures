@@ -32,6 +32,14 @@ public class PresRetrieveInfoType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public PresRetrieveInfoType(DsbOptionalInputsType optIn, String reqId, String pro, String stat, Map<String, Object> additionalProperties) {
+        this.optIn = optIn;
+        this.reqId = reqId;
+        this.pro = pro;
+        this.stat = stat;
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonProperty("optIn")
     public DsbOptionalInputsType getOptIn() {
         return optIn;

@@ -36,6 +36,12 @@ public class MdExtensionType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public MdExtensionType(String name, String value, Map<String, Object> additionalProperties) {
+        this.name = name;
+        this.value = value;
+        this.additionalProperties = additionalProperties;
+    }
+
     /**
      * 
      * (Required)

@@ -48,6 +48,17 @@ public class MdFormatType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public MdFormatType(String fid, String spec, List<DsbInternationalStringType__1> desc, DsigrwTransformsType__1 trfo, List<MdParameterType> format, List<DsbAnyType__1> ext, Boolean def, Map<String, Object> additionalProperties) {
+        this.fid = fid;
+        this.spec = spec;
+        this.desc = desc;
+        this.trfo = trfo;
+        this.format = format;
+        this.ext = ext;
+        this.def = def;
+        this.additionalProperties = additionalProperties;
+    }
+
     /**
      * 
      * (Required)

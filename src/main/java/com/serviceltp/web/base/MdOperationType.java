@@ -51,6 +51,18 @@ public class MdOperationType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public MdOperationType(String name, String spec, List<DsbInternationalStringType__1> desc, List<MdParameterType> in, List<MdParameterType> opt, List<MdParameterType> out, String xsd, List<MdExtensionType> ext, Map<String, Object> additionalProperties) {
+        this.name = name;
+        this.spec = spec;
+        this.desc = desc;
+        this.in = in;
+        this.opt = opt;
+        this.out = out;
+        this.xsd = xsd;
+        this.ext = ext;
+        this.additionalProperties = additionalProperties;
+    }
+
     /**
      * 
      * (Required)

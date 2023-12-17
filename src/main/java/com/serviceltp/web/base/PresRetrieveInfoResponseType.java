@@ -34,6 +34,14 @@ public class PresRetrieveInfoResponseType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public PresRetrieveInfoResponseType(DsbOptionalOutputsType optOut, DsbResultType result, String reqId, List<PresProfileType> pro, Map<String, Object> additionalProperties) {
+        this.optOut = optOut;
+        this.result = result;
+        this.reqId = reqId;
+        this.pro = pro;
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonProperty("optOut")
     public DsbOptionalOutputsType getOptOut() {
         return optOut;

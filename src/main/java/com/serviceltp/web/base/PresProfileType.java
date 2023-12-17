@@ -81,6 +81,23 @@ public class PresProfileType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public PresProfileType(String pid, List<String> spec, List<DsbInternationalStringType> description, List<MdOperationType> op, List<MdPolicyType> pol, List<MdExtensionType> ext, String sid, PresProfileValidityPeriodType pvp, String psm, List<String> pg, List<MdFormatType> ef, String eed, String perp, Map<String, Object> additionalProperties) {
+        this.pid = pid;
+        this.spec = spec;
+        this.description = description;
+        this.op = op;
+        this.pol = pol;
+        this.ext = ext;
+        this.sid = sid;
+        this.pvp = pvp;
+        this.psm = psm;
+        this.pg = pg;
+        this.ef = ef;
+        this.eed = eed;
+        this.perp = perp;
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonProperty("pid")
     public String getPid() {
         return pid;

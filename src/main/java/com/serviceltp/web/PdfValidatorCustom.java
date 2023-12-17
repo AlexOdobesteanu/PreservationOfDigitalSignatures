@@ -16,6 +16,8 @@ import eu.europa.esig.dss.model.x509.revocation.ocsp.OCSP;
 import java.io.ByteArrayInputStream;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+
+import eu.europa.esig.dss.spi.tsl.TrustedListsCertificateSource;
 import eu.europa.esig.dss.spi.x509.CommonTrustedCertificateSource;
 import eu.europa.esig.dss.spi.x509.aia.DefaultAIASource;
 import eu.europa.esig.dss.spi.x509.revocation.RevocationSource;
@@ -42,6 +44,7 @@ import java.security.cert.X509Certificate;
 
 public class PdfValidatorCustom {
 
+
     public PdfValidatorCustom() {
 
 
@@ -53,21 +56,20 @@ public class PdfValidatorCustom {
 
 
         CommonCertificateVerifier cv=new CommonCertificateVerifier();
-        CommonTrustedCertificateSource trustedCertSource=new CommonTrustedCertificateSource();
 
-        Path filePath=Paths.get("sts_qualified_ca.crt");
-
-        System.out.println(Paths.get(".").toAbsolutePath());
-        byte[] fileBytes=Files.readAllBytes(filePath);
-        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-        ByteArrayInputStream inputStream=new ByteArrayInputStream(fileBytes);
-        X509Certificate x509cert=(X509Certificate) certificateFactory.generateCertificate(inputStream);
-        CertificateToken certToken=new CertificateToken(x509cert);
-
-
-        trustedCertSource.addCertificate(certToken);
-        cv.setTrustedCertSources(trustedCertSource);
-
+//        Path filePath=Paths.get("sts_qualified_ca.crt");
+//
+//
+//        System.out.println(Paths.get(".").toAbsolutePath());
+//        byte[] fileBytes=Files.readAllBytes(filePath);
+//        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+//        ByteArrayInputStream inputStream=new ByteArrayInputStream(fileBytes);
+//        X509Certificate x509cert=(X509Certificate) certificateFactory.generateCertificate(inputStream);
+//        CertificateToken certToken=new CertificateToken(x509cert);
+//
+//
+//        trustedCertSource.addCertificate(certToken);
+        cv.setTrustedCertSources(LoadedCerts.getInstance().trustedCertSource);
         cv.setOcspSource(new OnlineOCSPSource());
         cv.setCrlSource(new OnlineCRLSource());
         cv.setAIASource(new DefaultAIASource());

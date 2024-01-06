@@ -1,10 +1,14 @@
 package com.serviceltp.web.controller;
 
+import com.serviceltp.web.JwtService;
 import com.serviceltp.web.PdfValidatorCustom;
 import com.serviceltp.web.ProfileGeneratorImpl;
 import com.serviceltp.web.base.*;
 
 import eu.europa.esig.dss.detailedreport.jaxb.XmlBasicBuildingBlocks;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +24,8 @@ import java.util.*;
 //@Controller
 public class FeaturesController{
 
+    private JwtService jwtService;
+    private UserDetailsService userDetailsService;
     //show upload form
     @GetMapping("/features")
     public String features()
@@ -72,7 +78,9 @@ public class FeaturesController{
     @ResponseBody
     public String preservePO(@RequestBody(required = false) PresPreservePOType req)
     {
-        return "alex";
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String username = userDetails.getUsername();
+        return username;
     }
 
 

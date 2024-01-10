@@ -1,6 +1,7 @@
 package com.serviceltp.web.config;
 
 import com.serviceltp.web.repository.UserRepository;
+import com.serviceltp.web.services.UserService;
 import io.swagger.v3.oas.annotations.info.Contact;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

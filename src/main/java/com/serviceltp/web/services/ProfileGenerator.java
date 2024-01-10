@@ -1,4 +1,4 @@
-package com.serviceltp.web;
+package com.serviceltp.web.services;
 
 import com.serviceltp.web.base.PresProfileType;
 

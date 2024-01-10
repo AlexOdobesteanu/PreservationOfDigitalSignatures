@@ -56,19 +56,6 @@ public class PdfValidatorCustom {
 
 
         CommonCertificateVerifier cv=new CommonCertificateVerifier();
-
-//        Path filePath=Paths.get("sts_qualified_ca.crt");
-//
-//
-//        System.out.println(Paths.get(".").toAbsolutePath());
-//        byte[] fileBytes=Files.readAllBytes(filePath);
-//        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
-//        ByteArrayInputStream inputStream=new ByteArrayInputStream(fileBytes);
-//        X509Certificate x509cert=(X509Certificate) certificateFactory.generateCertificate(inputStream);
-//        CertificateToken certToken=new CertificateToken(x509cert);
-//
-//
-//        trustedCertSource.addCertificate(certToken);
         cv.setTrustedCertSources(LoadedCerts.getInstance().trustedCertSource);
         cv.setOcspSource(new OnlineOCSPSource());
         cv.setCrlSource(new OnlineCRLSource());

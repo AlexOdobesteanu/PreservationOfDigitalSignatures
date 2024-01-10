@@ -1,17 +1,19 @@
 package com.serviceltp.web.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.serviceltp.web.JwtService;
 import com.serviceltp.web.LoadedCerts;
 import com.serviceltp.web.PdfValidatorCustom;
-import com.serviceltp.web.ProfileGeneratorImpl;
+import com.serviceltp.web.models.Document;
+import com.serviceltp.web.models.User;
+import com.serviceltp.web.repository.UserRepository;
+import com.serviceltp.web.services.DocumentService;
+import com.serviceltp.web.services.ProfileGeneratorImpl;
 import com.serviceltp.web.base.*;
 
+import com.serviceltp.web.services.UserService;
 import eu.europa.esig.dss.detailedreport.jaxb.XmlBasicBuildingBlocks;
 import eu.europa.esig.dss.enumerations.SignatureLevel;
 import eu.europa.esig.dss.model.DSSDocument;
-import eu.europa.esig.dss.model.DigestDocument;
-import eu.europa.esig.dss.model.FileDocument;
 import eu.europa.esig.dss.model.InMemoryDocument;
 import eu.europa.esig.dss.pades.PAdESSignatureParameters;
 import eu.europa.esig.dss.pades.signature.PAdESService;
@@ -21,11 +23,10 @@ import eu.europa.esig.dss.service.ocsp.OnlineOCSPSource;
 import eu.europa.esig.dss.service.tsp.OnlineTSPSource;
 import eu.europa.esig.dss.spi.x509.aia.DefaultAIASource;
 import eu.europa.esig.dss.validation.CommonCertificateVerifier;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -41,9 +42,14 @@ import java.util.*;
 @RestController
 //@Controller
 public class FeaturesController{
-
     private JwtService jwtService;
+
+    @Autowired
+    private UserService userService;
     private UserDetailsService userDetailsService;
+    @Autowired
+    private DocumentService documentService;
+
     //show upload form
     @GetMapping("/features")
     public String features()
@@ -95,6 +101,10 @@ public class FeaturesController{
     @RequestMapping(value = "/PreservePO", method = RequestMethod.POST)
     @ResponseBody
     public String preservePO(@RequestBody(required = false) PresPreservePOType req) throws Exception {
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser= userService.findUserByUsername(userDetails.getUsername()).orElseThrow();
+
         String reqId = req.getReqId();
         String profileIdentifier = req.getPro();
 
@@ -149,15 +159,24 @@ public class FeaturesController{
 
                             DSSDocument ltaLevelDocument = pAdESService.extendDocument(toExtendDocument, parameters);
 
+                            //work in db
+                            var doc = Document.builder()
+                                    .user(currentUser)
+                                    .name("random")
+                                    .deadline(new Date())
+                                    .build();
+                            documentService.saveDocument(doc);
+
+
                             try (InputStream inputStream = ltaLevelDocument.openStream()) {
                                 byte[] contentBytes = new byte[inputStream.available()];
                                 inputStream.read(contentBytes);
                                 // Assuming content is text, you can convert it to a String
 //                                String contentAsString = new String(contentBytes);
-                                String contentAsString = Base64.getEncoder().encodeToString(contentBytes);
+                                String contentAsStringEncoded = Base64.getEncoder().encodeToString(contentBytes);
 
                                 PrintWriter writer = new PrintWriter("output.txt");
-                                writer.print(contentAsString);
+                                writer.print(contentAsStringEncoded);
                                 writer.close();
 
 //                                System.out.println("Content of the DSS Document: " + contentAsString);

@@ -1,6 +1,7 @@
-package com.serviceltp.web;
+package com.serviceltp.web.services;
 
 import com.serviceltp.web.base.*;
+import com.serviceltp.web.services.ProfileGenerator;
 
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -11,7 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-public class ProfileGeneratorImpl extends ProfileGenerator{
+public class ProfileGeneratorImpl extends ProfileGenerator {
     public PresProfileType getProfile(String type) throws URISyntaxException, ParseException {
         List<MdOperationType> opList= new ArrayList<MdOperationType>();
         //Added List of MdOperationType s

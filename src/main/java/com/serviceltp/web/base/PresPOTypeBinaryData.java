@@ -23,6 +23,11 @@ public class PresPOTypeBinaryData {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public PresPOTypeBinaryData(String value, Map<String, Object> additionalProperties) {
+        this.value = value;
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonProperty("value")
     public String getValue() {
         return value;

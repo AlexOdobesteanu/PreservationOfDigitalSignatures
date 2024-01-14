@@ -12,15 +12,18 @@ public class DocumentServiceImpl implements DocumentService{
     private DocumentRepository documentRepository;
 
     @Override
-    public void saveDocument(Document document) {
-        documentRepository.save(document);
+    public Document saveDocument(Document document) {
+        return documentRepository.save(document);
     }
     @Override
     public void updateDocument(Document document, Long documentId) {
         Document docDb = documentRepository.findById(documentId).orElseThrow();
         docDb.setName(document.getName());
         docDb.setUser(document.getUser());
-        docDb.setDeadline(document.getDeadline());
         documentRepository.save(docDb);
+    }
+    @Override
+    public Document getById(long id) {
+        return documentRepository.getReferenceById(id);
     }
 }

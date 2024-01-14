@@ -43,6 +43,17 @@ public class PresPOType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public PresPOType(PresPOTypeBinaryData binaryData, PresPOTypeXmlData xmlData, String formatId, String mimeType, String pronomId, String id, List<String> relObj, Map<String, Object> additionalProperties) {
+        this.binaryData = binaryData;
+        this.xmlData = xmlData;
+        this.formatId = formatId;
+        this.mimeType = mimeType;
+        this.pronomId = pronomId;
+        this.id = id;
+        this.relObj = relObj;
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonProperty("binaryData")
     public PresPOTypeBinaryData getBinaryData() {
         return binaryData;

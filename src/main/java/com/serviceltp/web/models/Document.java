@@ -1,5 +1,6 @@
 package com.serviceltp.web.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +10,9 @@ import org.checkerframework.checker.formatter.qual.Format;
 import org.checkerframework.checker.units.qual.Force;
 
 import java.util.Date;
+import java.util.Set;
 
 @Entity
-@Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -23,8 +24,21 @@ public class Document {
     @ManyToOne
     private User user;
     private String name;
-    @Temporal(TemporalType.DATE)
-    private Date deadline;
+    //Add many to many with Algorithm
+    @ManyToMany
+    @JoinTable(name ="document_algos",
+            joinColumns = @JoinColumn(name="document_id"),
+            inverseJoinColumns = @JoinColumn(name="algo_id"))
+    Set<Algorithm> documentAlgorithms;
+    //Add Certificates and one-to-many relationship
+    @OneToMany(mappedBy = "document")
+    private Set<Certificate> certificates;
+
+    public Document(User currentUser, String name) {
+        this.user = currentUser;
+        this.name = name;
+    }
+
     public long getId() {
         return id;
     }
@@ -49,11 +63,19 @@ public class Document {
         this.name = name;
     }
 
-    public Date getDeadline() {
-        return deadline;
+    public Set<Algorithm> getDocumentAlgorithms() {
+        return documentAlgorithms;
     }
 
-    public void setDeadline(Date deadline) {
-        this.deadline = deadline;
+    public void setDocumentAlgorithms(Set<Algorithm> documentAlgorithms) {
+        this.documentAlgorithms = documentAlgorithms;
+    }
+
+    public Set<Certificate> getCertificates() {
+        return certificates;
+    }
+
+    public void setCertificates(Set<Certificate> certificates) {
+        this.certificates = certificates;
     }
 }

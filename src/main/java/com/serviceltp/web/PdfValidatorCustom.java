@@ -49,6 +49,32 @@ public class PdfValidatorCustom {
 
 
     }
+
+    static public PDFDocumentValidator getValidator(byte[] bytes) throws CertificateException, IOException {
+        Locale locale = Locale.getDefault();
+        //Create validator
+        PDFDocumentValidator validator= new PDFDocumentValidator(new InMemoryDocument(bytes));
+
+
+        CommonCertificateVerifier cv=new CommonCertificateVerifier();
+        cv.setTrustedCertSources(LoadedCerts.getInstance().trustedCertSource);
+        cv.setOcspSource(new OnlineOCSPSource());
+        cv.setCrlSource(new OnlineCRLSource());
+        cv.setAIASource(new DefaultAIASource());
+        cv.addTrustedCertSources();
+
+
+        //Set validator
+        validator.setCertificateVerifier(cv);
+
+        validator.setSignaturePolicyProvider(new SignaturePolicyProvider());
+        validator.setTokenIdentifierProvider(new OriginalIdentifierProvider());
+        validator.setValidationLevel(ValidationLevel.ARCHIVAL_DATA);
+
+        validator.setLocale(locale);
+        return validator;
+    }
+
     static public List<XmlBasicBuildingBlocks> validateBytes (byte[] bytes) throws IOException, CertificateException {
         Locale locale = Locale.getDefault();
         //Create validator

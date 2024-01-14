@@ -23,6 +23,11 @@ public class PresPOTypeXmlData {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public PresPOTypeXmlData(String b64Content, Map<String, Object> additionalProperties) {
+        this.b64Content = b64Content;
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonProperty("b64Content")
     public String getB64Content() {
         return b64Content;

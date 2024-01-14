@@ -1,5 +1,6 @@
 package com.serviceltp.web;
 
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 
 import java.net.URI;
+import java.util.Arrays;
 
 @SpringBootApplication
 public class WebApplication {

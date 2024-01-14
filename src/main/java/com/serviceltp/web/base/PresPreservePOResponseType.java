@@ -37,6 +37,15 @@ public class PresPreservePOResponseType {
     @JsonIgnore
     private Map<String, Object> additionalProperties = new LinkedHashMap<String, Object>();
 
+    public PresPreservePOResponseType(DsbOptionalOutputsType optOut, DsbResultType result, String reqId, String poId, List<PresPOType> po, Map<String, Object> additionalProperties) {
+        this.optOut = optOut;
+        this.result = result;
+        this.reqId = reqId;
+        this.poId = poId;
+        this.po = po;
+        this.additionalProperties = additionalProperties;
+    }
+
     @JsonProperty("optOut")
     public DsbOptionalOutputsType getOptOut() {
         return optOut;

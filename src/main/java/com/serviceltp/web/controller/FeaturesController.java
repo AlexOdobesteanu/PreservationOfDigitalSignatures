@@ -163,8 +163,22 @@ public class FeaturesController{
                 DSSDocument ltaLevelDocument = pAdESService.extendDocument(toExtendDocument, parameters);
 
                 //work in db
-                Document doc = new Document(currentUser, UUID.randomUUID().toString());
-                Document docRetrieved = documentService.saveDocument(doc);
+                Document docRetrieved;
+                if(po.getId() != "" && po.getId() != null && po.getId() != "string")
+                {
+                    docRetrieved = documentService.getById(Long.parseLong(po.getId(),10));
+                    Set<Certificate> certs = docRetrieved.getCertificates();
+                    for (Certificate cert:certs) {
+                        certificateService.deleteCertificate(cert);
+                    }
+                    docRetrieved.setDocumentAlgorithms(new HashSet<Algorithm>());
+                }
+                else
+                {
+                    Document doc = new Document(currentUser, UUID.randomUUID().toString());
+                    docRetrieved = documentService.saveDocument(doc);
+                }
+
 
                PDFDocumentValidator val = PdfValidatorCustom.getValidator(decodedBytes);
                List<AdvancedSignature> signaturesList = val.getSignatures();
@@ -191,6 +205,12 @@ public class FeaturesController{
                     //Treat TIMESTAMP
                     List<TimestampToken> timestampTokens = as.getAllTimestamps();
                     for (TimestampToken tt: timestampTokens) {
+                        List<CertificateToken> tokenCert = tt.getCertificates();
+                        for (CertificateToken ct : tokenCert) {
+                            Certificate cert = new Certificate(ct.getIssuer().getPrettyPrintRFC2253(),ct.getNotAfter(),docRetrieved);
+                            Certificate certRetrieved = certificateService.saveCertificate(cert);
+                            certSet.add(certRetrieved);
+                        }
                         //Signature algorithm for timestamp
                         if(tt.getSignatureAlgorithm()!=null)
                         {
@@ -217,7 +237,7 @@ public class FeaturesController{
                     List<CertificateToken> certificatesSource = as.getCertificates();
 
                     for (CertificateToken ct : certificatesSource) {
-                        Certificate cert = new Certificate(String.valueOf(ct.getCertificate().getSerialNumber().shortValue()),ct.getNotAfter(),docRetrieved);
+                        Certificate cert = new Certificate(ct.getIssuer().getPrettyPrintRFC2253(),ct.getNotAfter(),docRetrieved);
                         Certificate certRetrieved = certificateService.saveCertificate(cert);
                         certSet.add(certRetrieved);
                     }

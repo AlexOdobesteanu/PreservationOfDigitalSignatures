@@ -24,4 +24,9 @@ public class CertificateServiceImpl implements CertificateService {
         certDb.setExpiration_date(certificate.getExpiration_date());
         certificateRepository.save(certDb);
     }
+
+    @Override
+    public void deleteCertificate(Certificate certificate) {
+        certificateRepository.delete(certificate);
+    }
 }

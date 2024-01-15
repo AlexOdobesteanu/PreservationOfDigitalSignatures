@@ -25,13 +25,13 @@ public class Document {
     private User user;
     private String name;
     //Add many to many with Algorithm
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name ="document_algos",
             joinColumns = @JoinColumn(name="document_id"),
             inverseJoinColumns = @JoinColumn(name="algo_id"))
     Set<Algorithm> documentAlgorithms;
     //Add Certificates and one-to-many relationship
-    @OneToMany(mappedBy = "document")
+    @OneToMany(mappedBy = "document",fetch = FetchType.EAGER)
     private Set<Certificate> certificates;
 
     public Document(User currentUser, String name) {

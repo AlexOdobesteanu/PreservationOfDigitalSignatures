@@ -48,8 +48,7 @@ public class AuthenticationService {
                     .build();
         }
         else
-        {
             throw new AuthenticationServiceException("Could not login");
-        }
+
     }
 }

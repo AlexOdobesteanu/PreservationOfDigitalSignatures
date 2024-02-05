@@ -1,12 +1,9 @@
 package com.serviceltp.web.controller;
 
-import com.serviceltp.web.JwtService;
-import com.serviceltp.web.LoadedCerts;
-import com.serviceltp.web.PdfValidatorCustom;
-import com.serviceltp.web.models.Algorithm;
-import com.serviceltp.web.models.Certificate;
-import com.serviceltp.web.models.Document;
-import com.serviceltp.web.models.User;
+import com.serviceltp.web.*;
+import com.serviceltp.web.baseComponents.baseResponse.TransRefined;
+import com.serviceltp.web.baseComponents.baseResponse.TransResponse;
+import com.serviceltp.web.models.*;
 import com.serviceltp.web.services.*;
 import com.serviceltp.web.base.*;
 
@@ -34,13 +31,17 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.URISyntaxException;
 import java.security.cert.CertificateException;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -56,13 +57,32 @@ public class FeaturesController{
     private AlgorithmService algorithmService;
     @Autowired
     private CertificateService certificateService;
+    @Autowired
+    private TransService transService;
 
 
     //show upload form
-    @GetMapping("/features")
-    public String features()
-    {
-        return "features";
+//    @GetMapping("/features")
+//    public String features()
+//    {
+//        return "features";
+//    }
+
+    @RequestMapping(value = "/YourTransactions", method = RequestMethod.POST)
+    @ResponseBody
+    public TransResponse getTransForUser() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User currentUser= userService.findUserByUsername(userDetails.getUsername()).orElseThrow();
+        List<Trans> transes = transService.getAll();
+        List<TransRefined> transesRefined = new ArrayList<>();
+        for (Trans tr:transes) {
+            String id = String.valueOf(tr.getId());
+            Date creation_date = tr.getCreation_date();
+            String hash = tr.getHash();
+            String documentId = String.valueOf(tr.getDocument().getId());
+            transesRefined.add(new TransRefined(id,hash,documentId,creation_date));
+        }
+        return new TransResponse(transesRefined);
     }
 
     @RequestMapping(value = "/RetrieveInfo", method = RequestMethod.POST)
@@ -115,6 +135,9 @@ public class FeaturesController{
 
         String reqId = req.getReqId();
         String profileIdentifier = req.getPro();
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+
 
         ProfileGeneratorImpl implGen=new ProfileGeneratorImpl();
         PresProfileType profileActive = implGen.getProfile("active");
@@ -177,6 +200,10 @@ public class FeaturesController{
                 {
                     Document doc = new Document(currentUser, UUID.randomUUID().toString());
                     docRetrieved = documentService.saveDocument(doc);
+                    ContractGen contr = ContractInteraction.getInstance().contractGen;
+                    TransactionReceipt receipt = contr.addUserSubmittedDoc(BigInteger.valueOf(currentUser.getId()),BigInteger.valueOf(docRetrieved.getId())).send();
+                    Trans trans = new Trans(receipt.getTransactionHash(),new Date(),currentUser,docRetrieved);
+                    Trans transRetrieved = transService.saveTrans(trans);
                 }
 
 

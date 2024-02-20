@@ -38,6 +38,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigInteger;
 import java.net.URISyntaxException;
+import java.security.MessageDigest;
 import java.security.cert.CertificateException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -200,10 +201,22 @@ public class FeaturesController{
                 {
                     Document doc = new Document(currentUser, UUID.randomUUID().toString());
                     docRetrieved = documentService.saveDocument(doc);
-                    ContractGen contr = ContractInteraction.getInstance().contractGen;
-                    TransactionReceipt receipt = contr.addUserSubmittedDoc(BigInteger.valueOf(currentUser.getId()),BigInteger.valueOf(docRetrieved.getId())).send();
-                    Trans trans = new Trans(receipt.getTransactionHash(),new Date(),currentUser,docRetrieved);
-                    Trans transRetrieved = transService.saveTrans(trans);
+//                    ContractGen contr = ContractInteraction.getInstance().contractGen;
+//                    TransactionReceipt receipt = contr.addUserSubmittedDoc(BigInteger.valueOf(currentUser.getId()),BigInteger.valueOf(docRetrieved.getId())).send();
+//                    Trans trans = new Trans(receipt.getTransactionHash(),new Date(),currentUser,docRetrieved);
+//                    Trans transRetrieved = transService.saveTrans(trans);
+                    DocumentHash contr = ContractInteraction.getInstance().contractGen;
+                    try (InputStream inputStream = ltaLevelDocument.openStream()) {
+                        byte[] contentBytes = new byte[inputStream.available()];
+                        inputStream.read(contentBytes);
+                        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                        byte[] encodedHash = digest.digest(contentBytes);
+                        TransactionReceipt receipt = contr.addUserSubmittedDoc(BigInteger.valueOf(currentUser.getId()),encodedHash).send();
+                        Trans trans = new Trans(receipt.getTransactionHash(),new Date(),currentUser,docRetrieved);
+                        Trans transRetrieved = transService.saveTrans(trans);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
 
 
@@ -238,7 +251,6 @@ public class FeaturesController{
                             Certificate certRetrieved = certificateService.saveCertificate(cert);
                             certSet.add(certRetrieved);
                         }
-                        //Signature algorithm for timestamp
                         if(tt.getSignatureAlgorithm()!=null)
                         {
                             String algName = tt.getSignatureAlgorithm().toString();
@@ -283,10 +295,6 @@ public class FeaturesController{
                             , new PresPOTypeXmlData((""),null),"","",""
                             ,String.valueOf(docRetrieved.getId()),new ArrayList<String>(),null);
                     responseObjects.add(objForResp);
-
-//                    PrintWriter writer = new PrintWriter("output.txt");
-//                    writer.print(contentAsStringEncoded);
-//                    writer.close();
 
                 } catch (IOException e) {
                     e.printStackTrace();

@@ -34,9 +34,9 @@ public class WebApplication {
 //		Credentials credentials = WalletUtils.loadCredentials(
 //				"Alex.2701",
 //				"./UTC--2024-02-02T21-11-18.24220000Z--a61d5eb54c36f13c2d67bf51cd5c5bb3a6e4b0bd.json");
-////		ContractGen contr = ContractGen.deploy(web3j,credentials, ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT).send();
+//		DocumentHash contr = DocumentHash.deploy(web3j,credentials, ManagedTransaction.GAS_PRICE, Contract.GAS_LIMIT).send();
 //		DefaultGasProvider df = new DefaultGasProvider();
-//		ContractGen contr2 = ContractGen.load("0xDEbF3778d9fa06f5e52483d525217D718c081C42", web3j, credentials, df);
+////		ContractGen contr2 = ContractGen.load("0xDEbF3778d9fa06f5e52483d525217D718c081C42", web3j, credentials, df);
 //		String contractAddress = contr.getContractAddress(); //0x62da16e256cf0968e26e8700cf3a95b26ab1cb6a741272be851e47f4c3cac77b
 //		System.out.println(contractAddress);
 	}

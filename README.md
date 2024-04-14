@@ -1,6 +1,2 @@
-## THIS IS A LTP SERVICE, CREATED BASED ON THE STANDARDS:
- - EN 319 142-1 - V1.1.1 - Electronic Signatures and Infrastructures (ESI); PAdES digital signatures; Part 1: Building blocks and PAdES baseline signatures
-
- - TS 119 511 - V1.1.1 - Electronic Signatures and Infrastructures (ESI); Policy and security requirements for trust service providers providing long-term preservation of digital signatures or general data using digital signature techniques
-
- - TS 119 512 - V1.1.1 - Electronic Signatures and Infrastructures (ESI); Protocols for trust service providers providing long-term data preservation services
+##LTP of Digital Signatures Service
+The project aimed to detail the implementation of a long-term preservation service for qualified electronic signatures, that is in accordance with the legislative context provided by the ETSI TS 119 511, ETSI TS 119 512 standards. The main languages and technologies used in the development process were Java (Spring Boot Framework), the Digital Signature Service library and SQL Server. Authentication and authorization was implemented via JWT. The solution also has a document monitoring system, which ensures that documents remain valid for long periods of time, even if technological progress is rapid. The system notifies users if alert thresholds are exceeded. The solution also contains a public component of the Ethereum Blockchain, in which the metadata of the documents is stored and which ensures the transparency and immutability of the preservation process.
